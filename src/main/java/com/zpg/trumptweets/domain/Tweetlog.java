@@ -180,7 +180,7 @@ public class Tweetlog implements Serializable {
         this.categorize_user = user;
     }
     
-//    @Consumed
+    @Consumed
     public void process(){
     	this.setProcessed(true);
     }
