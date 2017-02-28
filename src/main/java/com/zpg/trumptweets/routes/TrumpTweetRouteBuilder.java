@@ -30,9 +30,9 @@ public class TrumpTweetRouteBuilder extends RouteBuilder {
     	
         from("jpa:com.zpg.trumptweets.domain.Tweetlog?consumer.namedQuery=getUnprocessedCategorizedTweets&consumeDelete=false"
         		+ "&persistenceUnit=postgresql&consumer.delay=50000")
-        		.log("New Tweet found!");
-//          	.bean(UserService.class,"createTweetLogs")
-//          	.to("mock:done");
+        		.log("New Tweet found!")
+          		.bean(UserService.class,"createTweetLogs")
+          		.log("Done!");
         	
     }
 }
