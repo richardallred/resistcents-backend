@@ -29,7 +29,7 @@ import org.apache.camel.component.jpa.Consumed;
 @Entity
 @Table(name = "tweetlog")
 //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQuery(name="getUnprocessedCategorizedTweets", query="select t from Tweetlog t where t.categories IS NOT EMPTY AND processed IS false")
+@NamedQuery(name="getUnprocessedCategorizedTweets", query="select t from Tweetlog t where t.categories IS NOT EMPTY AND (processed IS false OR processed IS NULL)")
 public class Tweetlog implements Serializable {
 
     private static final long serialVersionUID = 1L;

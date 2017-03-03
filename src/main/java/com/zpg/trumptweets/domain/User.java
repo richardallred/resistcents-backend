@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
@@ -101,8 +104,9 @@ public class User implements Serializable {
     @Column(name = "transfer_threshold")
     private BigDecimal transferThreshold;
     
-   
-
+    @OneToMany(mappedBy="user",fetch=FetchType.EAGER)
+    private Set<User_balances> balances;
+    
     public Long getId() {
         return id;
     }
@@ -224,7 +228,15 @@ public class User implements Serializable {
         this.transferThreshold = transferThreshold;
     }
 
-    @Override
+    public Set<User_balances> getBalances() {
+		return balances;
+	}
+
+	public void setBalances(Set<User_balances> balances) {
+		this.balances = balances;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
