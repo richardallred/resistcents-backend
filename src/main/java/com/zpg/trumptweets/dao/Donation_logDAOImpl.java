@@ -1,5 +1,6 @@
 package com.zpg.trumptweets.dao;
 
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import org.hibernate.type.ZonedDateTimeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,6 +61,7 @@ public class Donation_logDAOImpl implements Donation_logDAO{
 	@Override
 	public void processDonation(Donation_log donation) {
 		
+		donation.setProcessed_date(ZonedDateTime.now());
 		donation.setProcessed(true);
 		entityManager.merge(donation);
 		
