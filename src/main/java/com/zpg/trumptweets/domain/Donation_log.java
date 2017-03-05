@@ -1,21 +1,35 @@
 package com.zpg.trumptweets.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
+import org.apache.camel.component.jpa.Consumed;
 
 /**
  * A Donation_log.
  */
 @Entity
 @Table(name = "donation_log")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@NamedQueries({
+	@NamedQuery(name="getProcessedTransactionsForMonthByUser",query="select d from Donation_log d where d.processed is true and to_char(d.processed_date,'YYYY/MM') = :yearMonth and d.user = :user"),
+	@NamedQuery(name="getUnprocessedTransactions", query="select d from Donation_log d where d.processed is false")
+})
+	//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Donation_log implements Serializable {
 
     private static final long serialVersionUID = 1L;

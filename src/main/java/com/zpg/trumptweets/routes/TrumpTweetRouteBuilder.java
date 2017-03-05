@@ -44,6 +44,14 @@ public class TrumpTweetRouteBuilder extends RouteBuilder {
           					.bean(DonationLogService.class,"createDonationLog")
           			.end()
           		.log("Done!");
-        	
+        
+        from("jpa:com.zpg.trumptweets.domain.Donation_log?consumer.namedQuery=getUnprocessedTransactions&consumeDelete=false"
+        		+ "&persistenceUnit=postgresql&consumer.delay=60000&consumer.initialDelay=30000")
+        		.log("Unprocessed Donations Found!")
+        		.filter().method(DonationLogService.class, "filterMonthlyLimit")
+        			.log("Sending ${body} to PandaPay(stub)")
+        			.to("mock:pandaPay")
+        			.bean(DonationLogService.class,"processDonation");
+        
     }
 }

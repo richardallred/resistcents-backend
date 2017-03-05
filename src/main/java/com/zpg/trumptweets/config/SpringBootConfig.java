@@ -68,7 +68,7 @@ public class SpringBootConfig {
 
     private HibernateJpaVendorAdapter vendorAdaptor() {
          HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-         vendorAdapter.setShowSql(true);
+         vendorAdapter.setShowSql(false);
          return vendorAdapter;
     }
 
