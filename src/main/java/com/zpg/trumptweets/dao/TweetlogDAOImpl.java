@@ -18,7 +18,6 @@ public class TweetlogDAOImpl implements TweetlogDAO{
 	@Transactional
 	public void updateTweetLog(Tweetlog tweet) {
 		entityManager.merge(tweet);
-		entityManager.flush();
 	}
 
 }

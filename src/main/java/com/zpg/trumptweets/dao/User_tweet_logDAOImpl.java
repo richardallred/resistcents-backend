@@ -18,7 +18,6 @@ public class User_tweet_logDAOImpl implements User_tweet_logDAO {
 	@Transactional
 	public void addUser_tweet_log(User_tweet_log tweetLog) {
 		entityManager.persist(tweetLog);
-		entityManager.flush();
 	}
 
 }

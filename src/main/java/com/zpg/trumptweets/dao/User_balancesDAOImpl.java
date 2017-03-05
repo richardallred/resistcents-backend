@@ -20,7 +20,11 @@ public class User_balancesDAOImpl implements User_balancesDAO{
 	@Override
 	public void updateUserBalances(Set<User_balances> balances) {
 		for(User_balances balance: balances){
-			entityManager.merge(balance);
+			if(balance.getId() != null){
+				entityManager.merge(balance);
+			}else{
+				entityManager.persist(balance);
+			}
 		}
 	}
 

@@ -1,12 +1,17 @@
 package com.zpg.trumptweets.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 /**
  * A User_tweet_log.
@@ -26,7 +31,7 @@ public class User_tweet_log implements Serializable {
     @Column(name = "charge", precision=10, scale=2)
     private BigDecimal charge;
 
-    @ManyToOne
+    @ManyToOne()
     private User user;
 
     @ManyToOne

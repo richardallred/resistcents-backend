@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Component;
 
+import com.zpg.trumptweets.bean.UserListHeaderSplitBean;
+import com.zpg.trumptweets.service.DonationLogService;
+import com.zpg.trumptweets.service.UserBalanceService;
 import com.zpg.trumptweets.service.UserService;
+import com.zpg.trumptweets.service.UserTweetLogService;
  
 @Component
 public class TrumpTweetRouteBuilder extends RouteBuilder {
@@ -31,7 +35,14 @@ public class TrumpTweetRouteBuilder extends RouteBuilder {
         from("jpa:com.zpg.trumptweets.domain.Tweetlog?consumer.namedQuery=getUnprocessedCategorizedTweets&consumeDelete=false"
         		+ "&persistenceUnit=postgresql&consumer.delay=60000")
         		.log("New Tweet found!")
-          		.bean(UserService.class,"createTweetLogs")
+          		.bean(UserService.class,"findUsers")
+          		.split().method(UserListHeaderSplitBean.class,"splitMessage")
+          			.bean(UserTweetLogService.class,"createTweetLogs")
+          			.bean(UserBalanceService.class,"createOrUpdateUserBalances")
+          			.choice()
+          				.when(header("donationLogCat").isNotNull())
+          					.bean(DonationLogService.class,"createDonationLog")
+          			.end()
           		.log("Done!");
         	
     }

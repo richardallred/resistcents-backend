@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.spring.boot.CamelContextConfiguration;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.jpa.AvailableSettings;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -23,13 +24,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class SpringBootConfig {
 	
-	@Autowired
-	CamelContext camelContext;
 
     private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROPERTY_NAME_HIBERNATE_SHOW_SQL = "hibernate.show_sql";
     private static final String[] ENTITYMANAGER_PACKAGES_TO_SCAN = {"com.zpg.trumptweets.domain"};
 
+    @Bean
+    public CamelContextConfiguration contextConfiguration() {
+      return new CamelContextConfiguration() {
+        @Override
+        public void beforeApplicationStart(CamelContext context) {
+        	context.getShutdownStrategy().setTimeout(10);
+        }
+
+		@Override
+		public void afterApplicationStart(CamelContext context) {
+			// TODO Auto-generated method stub
+			
+		}
+      };
+    }
+    
     @Autowired
     private Environment env;
 
@@ -47,6 +62,7 @@ public class SpringBootConfig {
      public JpaTransactionManager jpaTransactionManager() {
          JpaTransactionManager transactionManager = new JpaTransactionManager();
          transactionManager.setEntityManagerFactory(entityManagerFactoryBean().getObject());
+         transactionManager.setNestedTransactionAllowed(true);
          return transactionManager;
      }
 

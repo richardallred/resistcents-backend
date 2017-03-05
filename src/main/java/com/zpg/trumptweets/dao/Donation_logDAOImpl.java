@@ -19,7 +19,6 @@ public class Donation_logDAOImpl implements Donation_logDAO{
 	public void saveDonation_log(Donation_log donation) {
 		
 		entityManager.persist(donation);
-		entityManager.flush();
 		
 	}
 
