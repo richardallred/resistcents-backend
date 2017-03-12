@@ -10,3 +10,5 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .classpath
 .mvn/timing.properties
+bin/
+src/main/resources/panda-pay.properties

@@ -20,7 +20,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@PropertySource(value = { "classpath:database/jdbc.properties" })
+@PropertySource(value = { "classpath:database/jdbc.properties","classpath:panda-pay.properties" })
 @EnableTransactionManagement
 public class SpringBootConfig {
 	

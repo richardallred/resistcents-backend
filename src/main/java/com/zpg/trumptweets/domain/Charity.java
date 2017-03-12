@@ -13,7 +13,6 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "charity")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Charity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,6 +30,9 @@ public class Charity implements Serializable {
     @Size(min = 2)
     @Column(name = "website")
     private String website;
+
+    @Column(name = "ein")
+    private String ein;
 
     @ManyToOne
     private Category category;
@@ -67,6 +69,19 @@ public class Charity implements Serializable {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public String getEin() {
+        return ein;
+    }
+
+    public Charity ein(String ein) {
+        this.ein = ein;
+        return this;
+    }
+
+    public void setEin(String ein) {
+        this.ein = ein;
     }
 
     public Category getCategory() {
@@ -108,6 +123,7 @@ public class Charity implements Serializable {
             "id=" + id +
             ", name='" + name + "'" +
             ", website='" + website + "'" +
+            ", ein='" + ein + "'" +
             '}';
     }
 }

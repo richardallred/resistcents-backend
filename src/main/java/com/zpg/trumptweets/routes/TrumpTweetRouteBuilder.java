@@ -32,6 +32,7 @@ public class TrumpTweetRouteBuilder extends RouteBuilder {
     	jpaComponent.setSharedEntityManager(true);
     	getContext().addComponent("jpa",jpaComponent);
     	
+    	//Consume tweets that have not been processed but are categorized
         from("jpa:com.zpg.trumptweets.domain.Tweetlog?consumer.namedQuery=getUnprocessedCategorizedTweets&consumeDelete=false"
         		+ "&persistenceUnit=postgresql&consumer.delay=60000")
         		.log("New Tweet found!")
@@ -45,13 +46,21 @@ public class TrumpTweetRouteBuilder extends RouteBuilder {
           			.end()
           		.log("Done!");
         
+        //Find donations ready to process
         from("jpa:com.zpg.trumptweets.domain.Donation_log?consumer.namedQuery=getUnprocessedTransactions&consumeDelete=false"
-        		+ "&persistenceUnit=postgresql&consumer.delay=60000&consumer.initialDelay=30000")
+        		+ "&persistenceUnit=postgresql&consumer.delay=60000&consumer.initialDelay=3000")
         		.log("Unprocessed Donations Found!")
         		.filter().method(DonationLogService.class, "filterMonthlyLimit")
-        			.log("Sending ${body} to PandaPay(stub)")
-        			.to("mock:pandaPay")
+        			.log("Sending ${body} to PandaPay(test)")
+        			.to("direct:pandaPay")
         			.bean(DonationLogService.class,"processDonation");
+        
+        //Send donation to panda pay
+        from("direct:pandaPay")
+        	.process("pandaPayRestProcessor")
+        	.recipientList(simple("https:api.pandapay.io/v1/donations?authMethod=Basic&authUsername={{panda_pay.secret_key}}&authPassword=''&throwExceptionOnFailure=false"))
+        	.log("Response: ${body}");
+        
         
     }
 }

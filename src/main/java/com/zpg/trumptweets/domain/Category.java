@@ -16,7 +16,6 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "category")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Category implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,17 +32,14 @@ public class Category implements Serializable {
 
     @OneToMany(mappedBy = "category")
     @JsonIgnore
-//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Charity> charities = new HashSet<>();
 
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore
-//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Tweetlog> tweetlogs = new HashSet<>();
 
     @ManyToMany(mappedBy = "excluded_categories")
     @JsonIgnore
-//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<User_preferences> user_exclusions = new HashSet<>();
 
     public Long getId() {

@@ -61,7 +61,7 @@ public class DonationLogService {
 		
 	}
 	
-	public void processDonation(@Body Donation_log donation){
+	public void processDonation(@Header(value = "donation") Donation_log donation){
 		donationLogDAO.processDonation(donation);
 	}
 }

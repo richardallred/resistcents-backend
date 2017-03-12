@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "user_preferences")
 //@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQuery(name="findUsersForCategory", query="select u.user from User_preferences u where :category NOT IN elements(u.excluded_categories)")
+@NamedQuery(name="findUsersForCategory", query="select u.user from User_preferences u where :category NOT IN elements(u.excluded_categories) and u.user.activated is true")
 public class User_preferences implements Serializable {
 
     private static final long serialVersionUID = 1L;
